@@ -362,9 +362,9 @@ function getSpiralMatrix(size) {
   let countMatrixNumber = 1;
   const matrix = [];
 
-  for (let row = 0; i < size; row += 1) {
+  for (let row = 0; row < size; row += 1) {
     matrix[row] = [];
-    for (let col = 0; j < size; col += 1) {
+    for (let col = 0; col < size; col += 1) {
       matrix[row][col] = 0;
     }
   }
