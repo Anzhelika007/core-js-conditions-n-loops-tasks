@@ -506,42 +506,35 @@ function shuffleChar(str, iterations) {
  * @returns {number} The nearest larger number, or original number if none exists.
  */
 function getNearestBigger(number) {
-  const arr = Array.from(String(number));
-  const dig = [];
-  for (let i = arr.length - 1; i >= 0; i -= 1) {
-    dig.unshift(Number(arr[i]));
-    if (dig.length > 2) {
-      const currentArr = dig.map((el) => el);
-      const max =
-        currentArr.sort()[currentArr.length - 1] === dig[0]
-          ? false
-          : currentArr.sort()[currentArr.length - 1];
-      const min = currentArr.sort()[0];
-      currentArr.reverse();
-      const someNumber = [];
-      let result = 0;
-      if (max) {
-        for (let j = currentArr.length - 1; j >= 0; j -= 1) {
-          const k =
-            currentArr.slice(0, j).join('') +
-            min +
-            currentArr.slice(j, -1).join('');
-          if (k > min) {
-            someNumber.push(k);
-            someNumber.sort();
-          }
-        }
-        if (someNumber.length > 0) {
-          result = Number(arr.slice(0, i).join('') + someNumber[0]);
-          return result;
-        }
-      } else if (dig.length === 2) {
-        result = Number(arr.slice(0, i).join('') + max + min);
-        return result;
-      }
+  const n = Array.from(String(number));
+  let smallestNumber;
+  let smallestNumberIndex;
+  let lessNumber;
+  for (let i = n.length - 1; i > 0; i -= 1) {
+    if (n[i] > n[i - 1]) {
+      smallestNumber = n[i - 1];
+      smallestNumberIndex = i;
+      break;
+    } else if (i === 1) {
+      return number;
     }
   }
-  return number;
+
+  const arrCurrent = n.splice(smallestNumberIndex - 1);
+  for (let i = 0; i < arrCurrent.length; i += 1) {
+    if (arrCurrent.sort()[i] > smallestNumber) {
+      lessNumber = arrCurrent.splice(i, 1);
+      break;
+    }
+  }
+
+  const res = [
+    ...n.splice(0, smallestNumberIndex - 1),
+    ...lessNumber,
+    ...arrCurrent,
+  ].join('');
+
+  return Number(res);
 }
 
 module.exports = {
