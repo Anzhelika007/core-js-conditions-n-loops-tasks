@@ -474,13 +474,13 @@ function shuffleChar(str, iterations) {
   let result = str;
   let count = iterations;
   while (count > 0) {
-    let replaceSymbol = 0;
-    let newStr = result;
-    for (let i = 1; i < str.length; i += 2) {
-      replaceSymbol = result[i];
-      newStr = newStr.replace(replaceSymbol, '') + replaceSymbol;
+    let leftStr = '';
+    let rightStr = '';
+    for (let i = 1; i < result.length; i += 2) {
+      leftStr += result[i - 1];
+      rightStr += result[i];
     }
-    result = newStr;
+    result = leftStr + rightStr;
     count -= 1;
   }
   return result;
