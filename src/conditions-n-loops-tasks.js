@@ -408,16 +408,21 @@ function getSpiralMatrix(size) {
  *  ]                 ]
  */
 function rotateMatrix(matrix) {
+  const copyMatrix = matrix;
   const newMatrix = [];
+  const index = matrix.length - 1;
   for (let i = matrix.length - 1; i >= 0; i -= 1) {
     for (let j = 0; j < matrix[i].length; j += 1) {
       if (!newMatrix[j]) {
         newMatrix[j] = [];
       }
-      newMatrix[j].push(matrix[i][j]);
+      newMatrix[j][index - i] = matrix[i][j];
     }
   }
-  return newMatrix;
+  for (let i = 0; i < matrix.length; i += 1) {
+    copyMatrix[i] = newMatrix[i];
+  }
+  return matrix;
 }
 
 /**
@@ -503,7 +508,7 @@ function getNearestBigger(number) {
   const dig = [];
   for (let i = arr.length - 1; i >= 0; i -= 1) {
     dig.unshift(Number(arr[i]));
-    if (dig.length > 1) {
+    if (dig.length > 2) {
       const currentArr = dig.map((el) => el);
       const max =
         currentArr.sort()[currentArr.length - 1] === dig[0]
@@ -525,9 +530,12 @@ function getNearestBigger(number) {
           }
         }
         if (someNumber.length > 0) {
-          result = arr.slice(0, i).join('') + someNumber[0];
+          result = Number(arr.slice(0, i).join('') + someNumber[0]);
           return result;
         }
+      } else if (dig.length === 2) {
+        result = Number(arr.slice(0, i).join('') + max + min);
+        return result;
       }
     }
   }
